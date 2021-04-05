@@ -1,0 +1,21 @@
+version: "3"
+services:
+  reverse:
+    image: "nginx"
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx:/etc/nginx
+
+  search:
+    image: "getmeili/meilisearch"
+    environment:
+      - MEILI_ENV
+      - MEILI_MASTER_KEY
+      - MEILI_NO_ANALYTICS
+      - MEILI_NO_SENTRY
+    ports:
+      - 7700:7700
+    volumes:
+      - ./dumps:/dumps
+    command: ./meilisearch --import-dump /dumps/locations_18-03-21.dump
